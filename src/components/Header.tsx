@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Switch from './Switch';
 import Wrapper from './Wrapper';
 
 const Title = styled.h1`
@@ -19,7 +20,7 @@ function Header() {
 			<Wrapper>
 				<HeaderContent>
 					<Title>Translate</Title>
-					<p>Theme switcher</p>
+					<Switch />
 				</HeaderContent>
 			</Wrapper>
 		</header>
