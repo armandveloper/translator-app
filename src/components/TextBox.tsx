@@ -1,13 +1,16 @@
-import { useState } from 'react';
-import { useRef } from 'react';
 import styled from 'styled-components';
 import { textBoxStyles } from '../styles/mixins';
 
-const StyledBox = styled.div`
+const TextBox = styled.div`
 	${textBoxStyles};
 `;
 
-const TextArea = styled.textarea`
+export const Actions = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
+export const TextArea = styled.textarea`
 	background: none;
 	color: var(--color-text);
 	display: block;
@@ -35,23 +38,5 @@ const TextArea = styled.textarea`
 // 	console.log(lines);
 // 	return newHeight;
 // }
-
-function TextBox() {
-	const [text, setText] = useState('');
-	const textAreaRef = useRef<HTMLTextAreaElement>(null!);
-
-	return (
-		<StyledBox>
-			<TextArea
-				value={text}
-				onChange={({ target }) => setText(target.value)}
-				ref={textAreaRef}
-				style={{
-					height: `${textAreaRef.current?.scrollHeight}px`,
-				}}
-			/>
-		</StyledBox>
-	);
-}
 
 export default TextBox;

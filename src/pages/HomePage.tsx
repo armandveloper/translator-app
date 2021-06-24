@@ -3,10 +3,10 @@ import Translator from '../components/Translator';
 
 function HomePage() {
 	return (
-		<>
+		<div>
 			<Header />
 			<Translator />
-		</>
+		</div>
 	);
 }
 

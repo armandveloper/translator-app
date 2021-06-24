@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import { ThemeContext } from '../context/ThemeContext';
 import Switch from './Switch';
 import Wrapper from './Wrapper';
 
@@ -15,12 +17,14 @@ const HeaderContent = styled.div`
 `;
 
 function Header() {
+	const { theme } = useContext(ThemeContext);
+
 	return (
 		<header>
 			<Wrapper>
 				<HeaderContent>
 					<Title>Translate</Title>
-					<Switch />
+					<Switch on={theme === 'dark'} />
 				</HeaderContent>
 			</Wrapper>
 		</header>
