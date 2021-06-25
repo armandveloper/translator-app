@@ -39,11 +39,11 @@ const GlobalStyles = createGlobalStyle`
     --color-primary: #5290f5;  
   }
   @media (any-hover: hover) {
-    [title] {
+    [data-title] {
     position: relative;
     }
-    [title]:hover::before {
-      content: attr(title);
+    [data-title]:hover::before {
+      content: attr(data-title);
       position: absolute;
       bottom: 100%;
       left: 0;
@@ -52,9 +52,13 @@ const GlobalStyles = createGlobalStyle`
       border-radius: 2px;
       background: #000;
       color: #fff;
-      font-size: 1.2rem,;
+      font-size: 1.2rem;
       font-family: inherit;
       white-space: nowrap;
+    }
+    [data-title][data-tooltip-pos="right"]:hover::before {
+      left: unset;
+      right: 0;
     }
   }
 `;

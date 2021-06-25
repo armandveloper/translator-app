@@ -5,4 +5,5 @@ export const textBoxStyles = css`
 	box-shadow: 0 0 5px 2px var(--color-bg-3);
 	height: auto;
 	padding: 2rem 2rem 0;
+	position: relative;
 `;

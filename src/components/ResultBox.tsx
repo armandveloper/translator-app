@@ -1,16 +1,20 @@
+import { MdContentCopy, MdVolumeUp } from 'react-icons/md';
+import { TranslateBoxProps } from '../constants/languages';
 import TextBox, { Actions, TextArea } from './TextBox';
 import BtnIcon from './BtnIcon';
-import { MdContentCopy, MdVolumeUp } from 'react-icons/md';
 
-function ResultBox() {
+function ResultBox({ language }: TranslateBoxProps) {
 	return (
 		<TextBox>
 			<TextArea />
 			<Actions>
-				<BtnIcon title="Listen">
+				<BtnIcon aria-label="Listen" data-title="Listen">
 					<MdVolumeUp size="24" color="currentColor" />
 				</BtnIcon>
-				<BtnIcon title="Copy translation">
+				<BtnIcon
+					aria-label="Copy translation"
+					data-title="Copy translation"
+				>
 					<MdContentCopy size="24" color="currentColor" />
 				</BtnIcon>
 			</Actions>

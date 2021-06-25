@@ -7,8 +7,7 @@ import SourceBox from './SourceBox';
 import ResultBox from './ResultBox';
 
 const StyledTranslator = styled.main`
-	margin-top: 4em;
-	margin-bottom: 2rem;
+	margin: 2rem 0;
 `;
 
 const Grid = styled.div`
@@ -21,9 +20,8 @@ const Grid = styled.div`
 `;
 
 function Translator() {
-	// const languages = ['en', 'es'];
-	const [sourceLanguage, setSourceLanguage] = useState<LanguageList>('en');
-	const [resultLanguage, setResultLanguage] = useState<LanguageList>('es');
+	const [sourceLanguage, setSourceLanguage] = useState<LanguageList>('en-US');
+	const [resultLanguage, setResultLanguage] = useState<LanguageList>('es-US');
 
 	const swapLanguages = (): void => {
 		const aux: LanguageList = sourceLanguage;
@@ -42,8 +40,8 @@ function Translator() {
 						setSourceLanguage={setSourceLanguage}
 						setResultLanguage={setResultLanguage}
 					/>
-					<SourceBox />
-					<ResultBox />
+					<SourceBox language={sourceLanguage} />
+					<ResultBox language={resultLanguage} />
 				</Grid>
 			</Wrapper>
 		</StyledTranslator>

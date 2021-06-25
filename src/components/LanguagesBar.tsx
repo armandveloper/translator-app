@@ -105,34 +105,38 @@ function LanguagesBar({
 				{/* <LanguageItem>Detect Language</LanguageItem> */}
 				<LanguageItem
 					onClick={handleSourceClick}
-					data-lang="en"
-					className={sourceLanguage === 'en' ? 'selected' : ''}
+					data-lang="en-US"
+					className={sourceLanguage === 'en-US' ? 'selected' : ''}
 				>
 					English
 				</LanguageItem>
 				<LanguageItem
 					onClick={handleSourceClick}
-					data-lang="es"
-					className={sourceLanguage === 'es' ? 'selected' : ''}
+					data-lang="es-US"
+					className={sourceLanguage === 'es-US' ? 'selected' : ''}
 				>
 					Spanish
 				</LanguageItem>
 			</LanguageList>
-			<SwapLanguage title="Swap Language" onClick={swapLanguages}>
+			<SwapLanguage
+				aria-label="Swap Language"
+				data-title="Swap Language"
+				onClick={swapLanguages}
+			>
 				<MdSwapHoriz color="currentColor" size="28" />
 			</SwapLanguage>
 			<LanguageList>
 				<LanguageItem
 					onClick={handleResultClick}
-					data-lang="en"
-					className={resultLanguage === 'en' ? 'selected' : ''}
+					data-lang="en-US"
+					className={resultLanguage === 'en-US' ? 'selected' : ''}
 				>
 					English
 				</LanguageItem>
 				<LanguageItem
 					onClick={handleResultClick}
-					data-lang="es"
-					className={resultLanguage === 'es' ? 'selected' : ''}
+					data-lang="es-US"
+					className={resultLanguage === 'es-US' ? 'selected' : ''}
 				>
 					Spanish
 				</LanguageItem>

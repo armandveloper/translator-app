@@ -12,6 +12,7 @@ export const Actions = styled.div`
 
 export const TextArea = styled.textarea`
 	background: none;
+	border: none;
 	color: var(--color-text);
 	display: block;
 	font-family: inherit;
@@ -22,6 +23,7 @@ export const TextArea = styled.textarea`
 	resize: none;
 	overflow: hidden;
 	padding-bottom: 2rem;
+	padding-right: 1rem;
 	width: 100%;
 	&:focus {
 		outline: none;
