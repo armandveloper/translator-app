@@ -1,19 +1,18 @@
 import { createContext, ReactNode } from 'react';
-import useVoices from '../hooks/useVoices';
 
 interface SpeechContextInt {
-	voices: SpeechSynthesisVoice[];
+	hello: string;
 }
 
 export const SpeechContext = createContext({} as SpeechContextInt);
 
 export const SpeechProvider = ({ children }: { children: ReactNode }) => {
-	const voices = useVoices();
+	const hello = '';
 
 	return (
 		<SpeechContext.Provider
 			value={{
-				voices: voices,
+				hello,
 			}}
 		>
 			{children}
