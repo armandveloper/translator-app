@@ -1,11 +1,13 @@
-import { ChangeEvent, MouseEvent, useContext, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { MdClear, MdMic, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
-import { SpeechContext } from '../context/SpeechContext';
+// import { SpeechContext } from '../context/SpeechContext';
+// import { textToSpeech } from '../helpers/speech';
 import TextBox, { Actions, TextArea } from './TextBox';
 import BtnIcon from './BtnIcon';
 import BtnWithPlayState from './BtnWithPlayState';
+import useSpeechSynthesis from '../hooks/useSpeechSynthesis';
 
 const CharactersCounter = styled.span`
 	margin-left: auto;
@@ -30,22 +32,7 @@ function SourceBox({ language }: TranslateBoxProps) {
 
 	const clearText = () => setText('');
 
-	const { voices } = useContext(SpeechContext);
-
-	console.log(voices);
-
-	const speechText = (
-		e: MouseEvent<HTMLButtonElement>,
-		onEnd: () => void
-	) => {
-		const utterance = new SpeechSynthesisUtterance(text);
-		utterance.onend = onEnd;
-		utterance.lang = language;
-		utterance.voice =
-			voices.find(({ lang }) => lang.includes(language)) || null;
-		console.log(utterance.voice);
-		window.speechSynthesis.speak(utterance);
-	};
+	const [textToSpeech] = useSpeechSynthesis(text, language);
 
 	const stopSpeech = () => window.speechSynthesis.cancel();
 
@@ -100,7 +87,7 @@ function SourceBox({ language }: TranslateBoxProps) {
 
 				{window.speechSynthesis && (
 					<BtnWithPlayState
-						onClick={speechText}
+						onClick={textToSpeech}
 						show={text.length > 0}
 						label="Listen"
 						title="Listen"
