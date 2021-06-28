@@ -32,11 +32,10 @@ function SourceBox({ language }: TranslateBoxProps) {
 
 	const clearText = () => setText('');
 
-	const [textToSpeech] = useSpeechSynthesis(text, language);
-
-	const stopSpeech = () => window.speechSynthesis.cancel();
-
-	const handleTogglePlay = () => {};
+	const [isSpeechSynthesisSupported, textToSpeech] = useSpeechSynthesis(
+		text,
+		language
+	);
 
 	const onSpeak = ({ results }: SpeechRecognitionEvent) => {
 		console.log('on end');
@@ -85,7 +84,7 @@ function SourceBox({ language }: TranslateBoxProps) {
 						/>
 					))}
 
-				{window.speechSynthesis && (
+				{isSpeechSynthesisSupported && (
 					<BtnWithPlayState
 						onClick={textToSpeech}
 						show={text.length > 0}

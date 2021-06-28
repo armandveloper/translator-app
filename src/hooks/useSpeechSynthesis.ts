@@ -1,7 +1,10 @@
 const useSpeechSynthesis = (
 	text: string,
 	language: string
-): [(onEnd: () => void) => void] => {
+): [boolean, (onEnd: () => void) => void] => {
+	const isSupported: boolean =
+		window.speechSynthesis !== undefined || window.speechSynthesis !== null;
+
 	const textToSpeech = (onEnd: () => void) => {
 		const utterance: SpeechSynthesisUtterance =
 			new SpeechSynthesisUtterance(text);
@@ -10,7 +13,7 @@ const useSpeechSynthesis = (
 		window.speechSynthesis.speak(utterance);
 	};
 
-	return [textToSpeech];
+	return [isSupported, textToSpeech];
 };
 
 export default useSpeechSynthesis;
