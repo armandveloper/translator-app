@@ -1,13 +1,14 @@
-import { ChangeEvent, useContext, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { MdClear, MdMic, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
 // import { SpeechContext } from '../context/SpeechContext';
 // import { textToSpeech } from '../helpers/speech';
+import useSpeechSynthesis from '../hooks/useSpeechSynthesis';
+import useSpeechRecognition from '../hooks/useSpeechRecognition';
 import TextBox, { Actions, TextArea } from './TextBox';
 import BtnIcon from './BtnIcon';
 import BtnWithPlayState from './BtnWithPlayState';
-import useSpeechSynthesis from '../hooks/useSpeechSynthesis';
 
 const CharactersCounter = styled.span`
 	margin-left: auto;
@@ -32,30 +33,14 @@ function SourceBox({ language }: TranslateBoxProps) {
 
 	const clearText = () => setText('');
 
-	const [isSpeechSynthesisSupported, textToSpeech] = useSpeechSynthesis(
-		text,
-		language
-	);
+	const [isSpeechSynthesisSupported, textToSpeech, cancelSpeechSynthesis] =
+		useSpeechSynthesis(text, language);
 
-	const onSpeak = ({ results }: SpeechRecognitionEvent) => {
-		console.log('on end');
-		console.log(results);
-		const [result] = Array.from(results[0]),
-			{ transcript } = result;
-		console.log(transcript);
-	};
-
-	const recognizeSpeech = () => {
-		let speech;
-		if (window.SpeechRecognition) {
-			speech = new SpeechRecognition();
-		} else if ((window as any).webkitSpeechRecognition) {
-			speech = new (window as any).webkitSpeechRecognition();
-		}
-		console.log(speech);
-		speech.start();
-		speech.addEventListener('result', onSpeak);
-	};
+	const [
+		isSpeechRecognitionSupported,
+		startSpeechRecognition,
+		abortSpeechRecognition,
+	] = useSpeechRecognition(language, setText);
 
 	return (
 		<TextBox>
@@ -74,23 +59,24 @@ function SourceBox({ language }: TranslateBoxProps) {
 				onChange={handleChange}
 			/>
 			<Actions>
-				{window.SpeechRecognition ||
-					((window as any).webkitSpeechRecognition && (
-						<BtnWithPlayState
-							onClick={recognizeSpeech}
-							label="Translate by voice"
-							title="Translate by voice"
-							icon={<MdMic size="24" color="currentColor" />}
-						/>
-					))}
+				{isSpeechRecognitionSupported && (
+					<BtnWithPlayState
+						icon={<MdMic size="24" color="currentColor" />}
+						label="Translate by voice"
+						title="Translate by voice"
+						onClick={startSpeechRecognition}
+						onCancel={abortSpeechRecognition}
+					/>
+				)}
 
 				{isSpeechSynthesisSupported && (
 					<BtnWithPlayState
-						onClick={textToSpeech}
-						show={text.length > 0}
-						label="Listen"
-						title="Listen"
 						icon={<MdVolumeUp size="24" color="currentColor" />}
+						label="Listen"
+						show={text.length > 0}
+						title="Listen"
+						onClick={textToSpeech}
+						onCancel={cancelSpeechSynthesis}
 					/>
 				)}
 				<CharactersCounter>

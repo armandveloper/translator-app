@@ -1,9 +1,8 @@
 const useSpeechSynthesis = (
 	text: string,
 	language: string
-): [boolean, (onEnd: () => void) => void] => {
-	const isSupported: boolean =
-		window.speechSynthesis !== undefined || window.speechSynthesis !== null;
+): [boolean, (onEnd: () => void) => void, () => void] => {
+	const isSupported: boolean = window.speechSynthesis !== undefined;
 
 	const textToSpeech = (onEnd: () => void) => {
 		const utterance: SpeechSynthesisUtterance =
@@ -13,7 +12,9 @@ const useSpeechSynthesis = (
 		window.speechSynthesis.speak(utterance);
 	};
 
-	return [isSupported, textToSpeech];
+	const cancelSpeechSynthesis = () => window.speechSynthesis.cancel();
+
+	return [isSupported, textToSpeech, cancelSpeechSynthesis];
 };
 
 export default useSpeechSynthesis;

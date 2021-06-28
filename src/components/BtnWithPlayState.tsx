@@ -1,6 +1,5 @@
 import { MouseEvent, ReactElement, useState } from 'react';
 import { MdStop } from 'react-icons/md';
-import { cancelSpeechSynthesis } from '../helpers/speech';
 import BtnIcon from './BtnIcon';
 
 interface BtnWithPlayStateProps {
@@ -9,6 +8,7 @@ interface BtnWithPlayStateProps {
 	title?: string;
 	show?: boolean;
 	onClick: (onEnd: () => void) => void;
+	onCancel: () => void;
 }
 
 function BtnWithPlayState({
@@ -17,13 +17,14 @@ function BtnWithPlayState({
 	title,
 	show,
 	onClick,
+	onCancel,
 }: BtnWithPlayStateProps) {
 	const [isPlaying, setPlaying] = useState(false);
 
 	const handlePlay = (e: MouseEvent<HTMLButtonElement>) => {
 		setPlaying(!isPlaying);
 		if (isPlaying) {
-			cancelSpeechSynthesis();
+			onCancel();
 			return;
 		}
 		// Esto cambia el icono de detener por el default
