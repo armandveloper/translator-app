@@ -1,14 +1,13 @@
 import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { MdSwapHoriz } from 'react-icons/md';
-import Languages from '../constants/languages';
+import Languages, { LanguageInfo } from '../constants/languages';
 
 interface LanguagesBarProps {
 	sourceLanguage: Languages;
 	resultLanguage: Languages;
 	swapLanguages(): void;
-	setSourceLanguage: Dispatch<SetStateAction<Languages>>;
-	setResultLanguage: Dispatch<SetStateAction<Languages>>;
+	setLanguageInfo: Dispatch<SetStateAction<LanguageInfo>>;
 }
 
 const StyledBar = styled.div`
@@ -78,8 +77,7 @@ function LanguagesBar({
 	sourceLanguage,
 	resultLanguage,
 	swapLanguages,
-	setSourceLanguage,
-	setResultLanguage,
+	setLanguageInfo,
 }: LanguagesBarProps) {
 	const handleSourceClick = (event: MouseEvent<HTMLLIElement>) => {
 		const language = event.currentTarget.dataset.lang as Languages;
@@ -87,7 +85,7 @@ function LanguagesBar({
 			swapLanguages();
 			return;
 		}
-		setSourceLanguage(language);
+		setLanguageInfo({ result: resultLanguage, source: language });
 	};
 
 	const handleResultClick = (event: MouseEvent<HTMLLIElement>) => {
@@ -96,7 +94,7 @@ function LanguagesBar({
 			swapLanguages();
 			return;
 		}
-		setResultLanguage(language);
+		setLanguageInfo({ source: sourceLanguage, result: language });
 	};
 
 	return (

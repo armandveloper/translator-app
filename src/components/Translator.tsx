@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
-import LanguageList from '../constants/languages';
+import { TranslateContext } from '../context/TranslateContext';
 import Wrapper from './Wrapper';
 import LanguagesBar from './LanguagesBar';
 import SourceBox from './SourceBox';
@@ -20,28 +20,21 @@ const Grid = styled.div`
 `;
 
 function Translator() {
-	const [sourceLanguage, setSourceLanguage] = useState<LanguageList>('en-US');
-	const [resultLanguage, setResultLanguage] = useState<LanguageList>('es-US');
-
-	const swapLanguages = (): void => {
-		const aux: LanguageList = sourceLanguage;
-		setSourceLanguage(resultLanguage);
-		setResultLanguage(aux);
-	};
+	const { languageInfo, swapLanguages, setLanguageInfo } =
+		useContext(TranslateContext);
 
 	return (
 		<StyledTranslator>
 			<Wrapper>
 				<Grid>
 					<LanguagesBar
-						sourceLanguage={sourceLanguage}
-						resultLanguage={resultLanguage}
+						sourceLanguage={languageInfo.source}
+						resultLanguage={languageInfo.result}
 						swapLanguages={swapLanguages}
-						setSourceLanguage={setSourceLanguage}
-						setResultLanguage={setResultLanguage}
+						setLanguageInfo={setLanguageInfo}
 					/>
-					<SourceBox language={sourceLanguage} />
-					<ResultBox language={resultLanguage} />
+					<SourceBox language={languageInfo.source} />
+					<ResultBox language={languageInfo.result} />
 				</Grid>
 			</Wrapper>
 		</StyledTranslator>
