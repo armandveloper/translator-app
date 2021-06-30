@@ -32,7 +32,7 @@ function ResultBox({ language }: TranslateBoxProps) {
 			</Toast>
 			<TextArea
 				ref={textAreaRef}
-				defaultValue={resultText}
+				value={resultText}
 				readOnly={true}
 				placeholder="Translation"
 				aria-label="Translation"

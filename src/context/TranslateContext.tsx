@@ -9,8 +9,8 @@ import {
 	useState,
 } from 'react';
 import LanguageList, { LanguageInfo } from '../constants/languages';
+import { ITranslateResponse } from '../interfaces/translate';
 import useOnline from '../hooks/useOnline';
-import * as dictionary from '../helpers/translations';
 
 interface TranslateContextInt {
 	isOnline: boolean;
@@ -21,7 +21,7 @@ interface TranslateContextInt {
 	setLanguageInfo: Dispatch<SetStateAction<LanguageInfo>>;
 	setText: Dispatch<SetStateAction<string>>;
 	swapLanguages: () => void;
-	translate: (text: string) => void;
+	translate: (text: string, source: string, target: string) => Promise<void>;
 }
 
 export const TranslateContext = createContext({} as TranslateContextInt);
@@ -47,17 +47,38 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 	const clearText = () => setSourceText('');
 
-	const translate = useCallback(
-		(text: string): void => {
-			const result: string =
-				languageInfo.source === 'en-US'
-					? dictionary.en.get(text) || ''
-					: dictionary.es.get(text) || '';
+	const baseURL =
+			'https://google-translate1.p.rapidapi.com/language/translate/v2',
+		apiKey = process.env.REACT_APP_API_KEY || '';
 
-			setSourceText(text);
-			setResultText(result);
+	console.log('api key:', apiKey);
+	const translate = useCallback(
+		async (text: string, source: string, target: string): Promise<void> => {
+			const headers: HeadersInit = new Headers();
+
+			headers.set('Content-Type', 'application/x-www-form-urlencoded');
+			headers.set('x-rapidapi-key', apiKey);
+
+			try {
+				const res = await fetch(baseURL, {
+					method: 'POST',
+					headers,
+					body: new URLSearchParams({
+						q: text,
+						source,
+						target,
+						format: 'text',
+					}),
+				});
+				console.log(res);
+				const result: ITranslateResponse = await res.json();
+				console.log(result);
+				setResultText(result.data.translations[0].translatedText);
+			} catch (err) {
+				console.log(err);
+			}
 		},
-		[languageInfo.source]
+		[apiKey, languageInfo]
 	);
 
 	useEffect(() => {
@@ -75,9 +96,13 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 		if (!isOnline || !sourceText.trim()) return;
 		// Si hay un término de mínimo 3 caracteres hace la llamada al api
 		timeoutID.current = window.setTimeout(() => {
-			translate(sourceText);
+			translate(
+				sourceText,
+				languageInfo.source.substring(0, 2),
+				languageInfo.result.substr(0, 2)
+			);
 		}, 500);
-	}, [isOnline, sourceText, translate]);
+	}, [isOnline, sourceText, translate, languageInfo]);
 
 	return (
 		<TranslateContext.Provider
