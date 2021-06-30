@@ -28,14 +28,12 @@ function SourceBox({ language }: TranslateBoxProps) {
 		sourceText: text,
 		clearText,
 		setText,
-		translate,
 	} = useContext(TranslateContext);
 
 	const handleChange = ({
 		currentTarget,
 	}: ChangeEvent<HTMLTextAreaElement>) => {
-		// setText(currentTarget.value.substring(0, charactersLimit));
-		translate(currentTarget.value.substring(0, charactersLimit));
+		setText(currentTarget.value.substring(0, charactersLimit));
 	};
 
 	const [isSpeechSynthesisSupported, textToSpeech, cancelSpeechSynthesis] =
@@ -62,6 +60,7 @@ function SourceBox({ language }: TranslateBoxProps) {
 				maxLength={charactersLimit}
 				onChange={handleChange}
 				value={text}
+				aria-label="Enter the source text"
 			/>
 			<Actions>
 				{isSpeechRecognitionSupported && (

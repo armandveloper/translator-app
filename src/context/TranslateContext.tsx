@@ -3,7 +3,9 @@ import {
 	Dispatch,
 	ReactNode,
 	SetStateAction,
+	useCallback,
 	useEffect,
+	useRef,
 	useState,
 } from 'react';
 import LanguageList, { LanguageInfo } from '../constants/languages';
@@ -43,22 +45,35 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 	const clearText = () => setSourceText('');
 
-	const translate = (text: string): void => {
-		console.log(text);
-		const result: string =
-			languageInfo.source === 'en-US'
-				? dictionary.en.get(text) || ''
-				: dictionary.es.get(text) || '';
+	const translate = useCallback(
+		(text: string): void => {
+			const result: string =
+				languageInfo.source === 'en-US'
+					? dictionary.en.get(text) || ''
+					: dictionary.es.get(text) || '';
 
-		console.log('after translate:', result);
-
-		setSourceText(text);
-		setResultText(result);
-	};
+			setSourceText(text);
+			setResultText(result);
+		},
+		[languageInfo.source]
+	);
 
 	useEffect(() => {
 		if (sourceText === '') setResultText('');
-	}, [sourceText]);
+	}, [sourceText, translate]);
+
+	const timeoutID = useRef<number>(null!);
+
+	// Debouncer
+	useEffect(() => {
+		// Limpia el timeout anterior
+		window.clearTimeout(timeoutID.current);
+		if (!sourceText.trim()) return;
+		// Si hay un término de mínimo 3 caracteres hace la llamada al api
+		timeoutID.current = window.setTimeout(() => {
+			translate(sourceText);
+		}, 500);
+	}, [sourceText, translate]);
 
 	return (
 		<TranslateContext.Provider
