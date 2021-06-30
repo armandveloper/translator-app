@@ -9,9 +9,11 @@ import {
 	useState,
 } from 'react';
 import LanguageList, { LanguageInfo } from '../constants/languages';
+import useOnline from '../hooks/useOnline';
 import * as dictionary from '../helpers/translations';
 
 interface TranslateContextInt {
+	isOnline: boolean;
 	languageInfo: LanguageInfo;
 	resultText: string;
 	sourceText: string;
@@ -64,20 +66,23 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 	const timeoutID = useRef<number>(null!);
 
+	const isOnline = useOnline();
+
 	// Debouncer
 	useEffect(() => {
 		// Limpia el timeout anterior
 		window.clearTimeout(timeoutID.current);
-		if (!sourceText.trim()) return;
+		if (!isOnline || !sourceText.trim()) return;
 		// Si hay un término de mínimo 3 caracteres hace la llamada al api
 		timeoutID.current = window.setTimeout(() => {
 			translate(sourceText);
 		}, 500);
-	}, [sourceText, translate]);
+	}, [isOnline, sourceText, translate]);
 
 	return (
 		<TranslateContext.Provider
 			value={{
+				isOnline,
 				languageInfo,
 				resultText,
 				sourceText,
