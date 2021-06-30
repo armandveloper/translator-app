@@ -6,6 +6,10 @@ const GlobalStyles = createGlobalStyle`
     --color-bg-3:#424242;
     --color-text: #fff;
     --color-primary: #5290f5;
+    --color-error: rgb(250, 179, 174);
+    --color-bg-error: rgb(24, 6, 5);
+    --color-success: rgb(183, 223, 185);
+    --color-bg-success: rgb(7, 17, 7);
   }
   @media (prefers-color-scheme: light) {
     :root {
@@ -36,7 +40,7 @@ const GlobalStyles = createGlobalStyle`
     --color-bg: #fff;
     --color-bg-3:#d8d8d8;
     --color-text: #000;
-    --color-primary: #5290f5;  
+    --color-primary: #5290f5;
   }
   @media (any-hover: hover) {
     [data-title] {

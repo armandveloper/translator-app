@@ -5,12 +5,14 @@ import Wrapper from './Wrapper';
 import LanguagesBar from './LanguagesBar';
 import SourceBox from './SourceBox';
 import ResultBox from './ResultBox';
+import Alert from './Alert';
 
 const StyledTranslator = styled.main`
 	margin: 2rem 0;
 `;
 
 const Grid = styled.div`
+	position: relative;
 	display: grid;
 	gap: 2rem;
 	@media (min-width: 56.25em) {
@@ -20,13 +22,17 @@ const Grid = styled.div`
 `;
 
 function Translator() {
-	const { languageInfo, swapLanguages, setLanguageInfo } =
+	const { isOnline, languageInfo, swapLanguages, setLanguageInfo } =
 		useContext(TranslateContext);
 
 	return (
 		<StyledTranslator>
 			<Wrapper>
 				<Grid>
+					<Alert severity="error" show={!isOnline}>
+						There seems to be a problem with the Internet
+						connection. Translator functionality may be limited.
+					</Alert>
 					<LanguagesBar
 						sourceLanguage={languageInfo.source}
 						resultLanguage={languageInfo.result}
