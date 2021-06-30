@@ -1,9 +1,8 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { MdClear, MdMic, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
-// import { SpeechContext } from '../context/SpeechContext';
-// import { textToSpeech } from '../helpers/speech';
+import { TranslateContext } from '../context/TranslateContext';
 import useSpeechSynthesis from '../hooks/useSpeechSynthesis';
 import useSpeechRecognition from '../hooks/useSpeechRecognition';
 import TextBox, { Actions, TextArea } from './TextBox';
@@ -22,16 +21,22 @@ const BtnClear = styled(BtnIcon)`
 `;
 
 function SourceBox({ language }: TranslateBoxProps) {
-	const [text, setText] = useState('');
+	// const [text, setText] = useState('');
 	const charactersLimit = 2000;
+
+	const {
+		sourceText: text,
+		clearText,
+		setText,
+		translate,
+	} = useContext(TranslateContext);
 
 	const handleChange = ({
 		currentTarget,
 	}: ChangeEvent<HTMLTextAreaElement>) => {
-		setText(currentTarget.value.substring(0, charactersLimit));
+		// setText(currentTarget.value.substring(0, charactersLimit));
+		translate(currentTarget.value.substring(0, charactersLimit));
 	};
-
-	const clearText = () => setText('');
 
 	const [isSpeechSynthesisSupported, textToSpeech, cancelSpeechSynthesis] =
 		useSpeechSynthesis(text, language);
@@ -55,8 +60,8 @@ function SourceBox({ language }: TranslateBoxProps) {
 			</BtnClear>
 			<TextArea
 				maxLength={charactersLimit}
-				value={text}
 				onChange={handleChange}
+				value={text}
 			/>
 			<Actions>
 				{isSpeechRecognitionSupported && (

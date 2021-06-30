@@ -28,6 +28,11 @@ export const TextArea = styled.textarea`
 	&:focus {
 		outline: none;
 	}
+	&::placeholder {
+		color: currentColor;
+		opacity: 0.79;
+		font-size: 2.4rem;
+	}
 `;
 
 // function calcHeight(scrollHeight: number): number {
