@@ -17,3 +17,21 @@ export const hideAlertAnimation = keyframes`
     opacity: 0;
   }
 `;
+
+export const showToastAnimation = keyframes`
+  from {
+    transform: translate3d(0, 10rem, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+`;
+
+export const hideToastAnimation = keyframes`
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 10rem, 0);
+  }
+`;
