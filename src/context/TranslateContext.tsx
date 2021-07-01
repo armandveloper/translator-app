@@ -78,7 +78,7 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 				console.log(err);
 			}
 		},
-		[apiKey, languageInfo]
+		[apiKey]
 	);
 
 	useEffect(() => {
