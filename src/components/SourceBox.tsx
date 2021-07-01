@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent, FormEvent, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { MdClear, MdMic, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
@@ -8,6 +8,8 @@ import useSpeechRecognition from '../hooks/useSpeechRecognition';
 import TextBox, { Actions, TextArea } from './TextBox';
 import BtnIcon from './BtnIcon';
 import BtnWithPlayState from './BtnWithPlayState';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const CharactersCounter = styled.span`
 	margin-left: auto;
@@ -45,6 +47,17 @@ function SourceBox({ language }: TranslateBoxProps) {
 		abortSpeechRecognition,
 	] = useSpeechRecognition(language, setText);
 
+	// const textareaRef = useRef<HTMLTextAreaElement>(null!);
+
+	// const [offset, setOffset] = useState(0);
+
+	const handleAutoGrow = ({
+		currentTarget,
+	}: FormEvent<HTMLTextAreaElement>) => {
+		currentTarget.style.height = 'auto';
+		currentTarget.style.height = `${currentTarget.scrollHeight}px`;
+	};
+
 	return (
 		<TextBox>
 			<BtnClear
@@ -57,10 +70,13 @@ function SourceBox({ language }: TranslateBoxProps) {
 				<MdClear size="24" color="currentColor" />
 			</BtnClear>
 			<TextArea
-				maxLength={charactersLimit}
-				onChange={handleChange}
-				value={text}
 				aria-label="Enter the source text"
+				maxLength={charactersLimit}
+				rows={2}
+				// ref={textareaRef}
+				value={text}
+				onInput={handleAutoGrow}
+				onChange={handleChange}
 			/>
 			<Actions>
 				{isSpeechRecognitionSupported && (
