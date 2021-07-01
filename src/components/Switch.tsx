@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { ThemeContext } from '../context/ThemeContext';
 
 interface SwitchProps {
-	on: boolean;
+	checked: boolean;
 }
 
 const StyledSwitch = styled.label<SwitchProps>`
-	background-color: ${({ on }) => (on ? 'var(--color-primary)' : '#4d4d4d')};
+	background-color: ${({ checked }) =>
+		checked ? 'var(--color-primary)' : '#4d4d4d'};
 	border-radius: 2.5rem;
 	width: 6rem;
 	height: 2.5rem;
@@ -29,7 +30,7 @@ const StyledSwitch = styled.label<SwitchProps>`
 	}
 `;
 
-function Switch({ on }: SwitchProps) {
+function Switch({ checked }: SwitchProps) {
 	const { setTheme } = useContext(ThemeContext);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +38,8 @@ function Switch({ on }: SwitchProps) {
 	};
 
 	return (
-		<StyledSwitch on={on}>
-			<input onChange={handleChange} type="checkbox" checked={on} />
+		<StyledSwitch checked={checked}>
+			<input onChange={handleChange} type="checkbox" checked={checked} />
 			<span className="switch-thumb" />
 		</StyledSwitch>
 	);

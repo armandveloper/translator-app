@@ -16,7 +16,7 @@ const GlobalStyles = createGlobalStyle`
       --color-bg: #fff;
       --color-bg-3:#d8d8d8;
       --color-text: #000;
-      --color-primary: #5290f5;  
+      --color-primary: #1a73e8;
     }
   }
   html {
@@ -40,7 +40,7 @@ const GlobalStyles = createGlobalStyle`
     --color-bg: #fff;
     --color-bg-3:#d8d8d8;
     --color-text: #000;
-    --color-primary: #5290f5;
+    --color-primary: #1a73e8;
   }
   @media (any-hover: hover) {
     [data-title] {

@@ -21,8 +21,7 @@ const BtnClear = styled(BtnIcon)`
 `;
 
 function SourceBox({ language }: TranslateBoxProps) {
-	// const [text, setText] = useState('');
-	const charactersLimit = 2000;
+	const charactersLimit = 200;
 
 	const {
 		sourceText: text,

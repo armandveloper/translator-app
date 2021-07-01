@@ -22,16 +22,15 @@ const Grid = styled.div`
 `;
 
 function Translator() {
-	const { isOnline, languageInfo, swapLanguages, setLanguageInfo } =
+	const { languageInfo, msgError, swapLanguages, setLanguageInfo } =
 		useContext(TranslateContext);
 
 	return (
 		<StyledTranslator>
 			<Wrapper>
 				<Grid>
-					<Alert severity="error" show={!isOnline}>
-						There seems to be a problem with the Internet
-						connection. Translator functionality may be limited.
+					<Alert severity="error" show={msgError !== ''}>
+						{msgError}
 					</Alert>
 					<LanguagesBar
 						sourceLanguage={languageInfo.source}
