@@ -3,9 +3,9 @@ export interface ITranslateResponse {
 }
 
 export interface IData {
-	translations: ITranslation[];
+	translations: ITranslations;
 }
 
-export interface ITranslation {
+export interface ITranslations {
 	translatedText: string;
 }

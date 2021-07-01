@@ -9,12 +9,12 @@ import {
 	useState,
 } from 'react';
 import LanguageList, { LanguageInfo } from '../constants/languages';
-import { ITranslateResponse } from '../interfaces/translate';
+import { ITranslateResponse } from '../interfaces/translate.interface';
 import useOnline from '../hooks/useOnline';
 
 interface TranslateContextInt {
-	isOnline: boolean;
 	languageInfo: LanguageInfo;
+	msgError: string;
 	resultText: string;
 	sourceText: string;
 	clearText: () => void;
@@ -36,46 +36,55 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 		result: 'es-US',
 	});
 
+	const [hasLimitExceeded, setLimitExceeded] = useState(false);
+
+	const [msgError, setError] = useState('');
+
 	const swapLanguages = (): void => {
 		const aux: LanguageList = languageInfo.source,
 			sourcetAux: string = sourceText;
 
 		setLanguageInfo({ source: languageInfo.result, result: aux });
 		setSourceText(resultText);
+		// Eliminar al agregar API
 		setResultText(sourcetAux);
 	};
 
 	const clearText = () => setSourceText('');
 
-	const baseURL =
-			'https://google-translate1.p.rapidapi.com/language/translate/v2',
+	const url = 'https://deep-translate1.p.rapidapi.com/language/translate/v2',
 		apiKey = process.env.REACT_APP_API_KEY || '';
 
-	console.log('api key:', apiKey);
 	const translate = useCallback(
 		async (text: string, source: string, target: string): Promise<void> => {
-			const headers: HeadersInit = new Headers();
-
-			headers.set('Content-Type', 'application/x-www-form-urlencoded');
-			headers.set('x-rapidapi-key', apiKey);
-
 			try {
-				const res = await fetch(baseURL, {
+				const res = await fetch(url, {
 					method: 'POST',
-					headers,
-					body: new URLSearchParams({
+					headers: {
+						'Content-Type': 'application/json',
+						'x-rapidapi-key': apiKey,
+						'x-rapidapi-host': 'deep-translate1.p.rapidapi.com',
+					},
+					body: JSON.stringify({
 						q: text,
 						source,
 						target,
-						format: 'text',
 					}),
 				});
-				console.log(res);
+				if (res.status === 429) {
+					setLimitExceeded(true);
+					return;
+				}
+				if (res.status !== 200) {
+					setError('Something Went Wrong');
+					return;
+				}
+
 				const result: ITranslateResponse = await res.json();
-				console.log(result);
-				setResultText(result.data.translations[0].translatedText);
+				setResultText(result.data.translations.translatedText);
 			} catch (err) {
-				console.log(err);
+				console.error(err);
+				setError('Something Went Wrong');
 			}
 		},
 		[apiKey]
@@ -89,11 +98,26 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 	const isOnline = useOnline();
 
+	// Mensajes de error
+	useEffect(() => {
+		if (hasLimitExceeded) {
+			setError('You have exceeded the allowed character limit');
+		} else if (!hasLimitExceeded) {
+			setError('');
+		} else if (!isOnline) {
+			setError(
+				'There seems to be a problem with the Internet connection. Translator functionality may be limited.'
+			);
+		} else {
+			setError('');
+		}
+	}, [isOnline, hasLimitExceeded]);
+
 	// Debouncer
 	useEffect(() => {
 		// Limpia el timeout anterior
 		window.clearTimeout(timeoutID.current);
-		if (!isOnline || !sourceText.trim()) return;
+		if (hasLimitExceeded || !isOnline || !sourceText.trim()) return;
 		// Si hay un término de mínimo 3 caracteres hace la llamada al api
 		timeoutID.current = window.setTimeout(() => {
 			translate(
@@ -102,13 +126,13 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 				languageInfo.result.substr(0, 2)
 			);
 		}, 500);
-	}, [isOnline, sourceText, translate, languageInfo]);
+	}, [hasLimitExceeded, isOnline, sourceText, translate, languageInfo]);
 
 	return (
 		<TranslateContext.Provider
 			value={{
-				isOnline,
 				languageInfo,
+				msgError,
 				resultText,
 				sourceText,
 				clearText,

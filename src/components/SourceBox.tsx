@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { MdClear, MdMic, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
@@ -21,8 +21,7 @@ const BtnClear = styled(BtnIcon)`
 `;
 
 function SourceBox({ language }: TranslateBoxProps) {
-	// const [text, setText] = useState('');
-	const charactersLimit = 2000;
+	const charactersLimit = 200;
 
 	const {
 		sourceText: text,
@@ -45,6 +44,15 @@ function SourceBox({ language }: TranslateBoxProps) {
 		abortSpeechRecognition,
 	] = useSpeechRecognition(language, setText);
 
+	const textAreaRef = useRef<HTMLTextAreaElement>(null!);
+
+	const handleClear = () => {
+		const event = new Event('input', { bubbles: true });
+		textAreaRef.current.value = '';
+		textAreaRef.current.dispatchEvent(event);
+		clearText();
+	};
+
 	return (
 		<TextBox>
 			<BtnClear
@@ -52,15 +60,17 @@ function SourceBox({ language }: TranslateBoxProps) {
 				aria-label="Clear source text"
 				data-title="Clear source text"
 				data-tooltip-pos="right"
-				onClick={clearText}
+				onClick={handleClear}
 			>
 				<MdClear size="24" color="currentColor" />
 			</BtnClear>
 			<TextArea
-				maxLength={charactersLimit}
-				onChange={handleChange}
-				value={text}
 				aria-label="Enter the source text"
+				maxLength={charactersLimit}
+				ref={textAreaRef}
+				rows={2}
+				value={text}
+				onChange={handleChange}
 			/>
 			<Actions>
 				{isSpeechRecognitionSupported && (

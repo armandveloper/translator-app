@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { MdContentCopy, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
 import { TranslateContext } from '../context/TranslateContext';
@@ -24,6 +24,11 @@ function ResultBox({ language }: TranslateBoxProps) {
 			.copy(resultText, textAreaRef.current)
 			.then(() => setToastOpen(true));
 	};
+
+	useEffect(() => {
+		textAreaRef.current.style.height = 'auto';
+		textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+	}, [resultText]);
 
 	return (
 		<TextBox>

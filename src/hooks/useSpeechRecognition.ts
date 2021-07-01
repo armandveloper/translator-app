@@ -18,18 +18,14 @@ const useSpeechRecognition = (
 		{ results }: SpeechRecognitionEvent,
 		onEnd: () => void
 	) => {
-		console.log('on end');
-		console.log(results);
 		const [result] = Array.from(results[0]),
 			{ transcript } = result;
-		console.log(transcript);
 		setText(transcript);
 		onEnd();
 	};
 
 	const startSpeechRecognition = (onEnd: () => void) => {
 		speech.lang = language;
-		console.log(speech);
 		speech.start();
 		speech.addEventListener('result', (e: SpeechRecognitionEvent) =>
 			onSpeak(e, onEnd)

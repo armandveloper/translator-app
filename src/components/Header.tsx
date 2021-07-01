@@ -24,7 +24,7 @@ function Header() {
 			<Wrapper>
 				<HeaderContent>
 					<Title>Translate</Title>
-					<Switch on={theme === 'dark'} />
+					<Switch checked={theme === 'dark'} />
 				</HeaderContent>
 			</Wrapper>
 		</header>

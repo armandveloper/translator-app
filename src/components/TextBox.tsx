@@ -1,3 +1,4 @@
+import { FormEvent } from 'react';
 import styled from 'styled-components';
 import { textBoxStyles } from '../styles/mixins';
 
@@ -10,7 +11,15 @@ export const Actions = styled.div`
 	align-items: center;
 `;
 
-export const TextArea = styled.textarea`
+const handleAutoGrow = ({ currentTarget }: FormEvent<HTMLTextAreaElement>) => {
+	currentTarget.style.height = 'auto';
+	currentTarget.style.height = `${currentTarget.scrollHeight}px`;
+};
+
+export const TextArea = styled.textarea.attrs((props) => ({
+	...props,
+	onInput: handleAutoGrow,
+}))`
 	background: none;
 	border: none;
 	color: var(--color-text);
@@ -34,16 +43,5 @@ export const TextArea = styled.textarea`
 		font-size: 2.4rem;
 	}
 `;
-
-// function calcHeight(scrollHeight: number): number {
-// 	console.log('scroll height:', scrollHeight);
-// 	if (!scrollHeight) return 170;
-// 	// Height / line height
-// 	const lines = Math.ceil(scrollHeight / 25.6);
-// 	// min-height + lines x line-height + padding + border
-// 	const newHeight = Math.ceil(lines * 25.6);
-// 	console.log(lines);
-// 	return newHeight;
-// }
 
 export default TextBox;
