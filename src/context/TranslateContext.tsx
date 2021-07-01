@@ -42,6 +42,7 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 		setLanguageInfo({ source: languageInfo.result, result: aux });
 		setSourceText(resultText);
+		// Eliminar al agregar API
 		setResultText(sourcetAux);
 	};
 
@@ -51,32 +52,32 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 			'https://google-translate1.p.rapidapi.com/language/translate/v2',
 		apiKey = process.env.REACT_APP_API_KEY || '';
 
-	console.log('api key:', apiKey);
 	const translate = useCallback(
 		async (text: string, source: string, target: string): Promise<void> => {
-			const headers: HeadersInit = new Headers();
+			setResultText(text);
+			// const headers: HeadersInit = new Headers();
 
-			headers.set('Content-Type', 'application/x-www-form-urlencoded');
-			headers.set('x-rapidapi-key', apiKey);
+			// headers.set('Content-Type', 'application/x-www-form-urlencoded');
+			// headers.set('x-rapidapi-key', apiKey);
 
-			try {
-				const res = await fetch(baseURL, {
-					method: 'POST',
-					headers,
-					body: new URLSearchParams({
-						q: text,
-						source,
-						target,
-						format: 'text',
-					}),
-				});
-				console.log(res);
-				const result: ITranslateResponse = await res.json();
-				console.log(result);
-				setResultText(result.data.translations[0].translatedText);
-			} catch (err) {
-				console.log(err);
-			}
+			// try {
+			// 	const res = await fetch(baseURL, {
+			// 		method: 'POST',
+			// 		headers,
+			// 		body: new URLSearchParams({
+			// 			q: text,
+			// 			source,
+			// 			target,
+			// 			format: 'text',
+			// 		}),
+			// 	});
+			// 	console.log(res);
+			// 	const result: ITranslateResponse = await res.json();
+			// 	console.log(result);
+			// 	setResultText(result.data.translations[0].translatedText);
+			// } catch (err) {
+			// 	console.log(err);
+			// }
 		},
 		[apiKey]
 	);

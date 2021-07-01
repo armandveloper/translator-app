@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useContext, useRef } from 'react';
+import { ChangeEvent, useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { MdClear, MdMic, MdVolumeUp } from 'react-icons/md';
 import { TranslateBoxProps } from '../constants/languages';
@@ -8,8 +8,6 @@ import useSpeechRecognition from '../hooks/useSpeechRecognition';
 import TextBox, { Actions, TextArea } from './TextBox';
 import BtnIcon from './BtnIcon';
 import BtnWithPlayState from './BtnWithPlayState';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
 const CharactersCounter = styled.span`
 	margin-left: auto;
@@ -47,15 +45,13 @@ function SourceBox({ language }: TranslateBoxProps) {
 		abortSpeechRecognition,
 	] = useSpeechRecognition(language, setText);
 
-	// const textareaRef = useRef<HTMLTextAreaElement>(null!);
+	const textAreaRef = useRef<HTMLTextAreaElement>(null!);
 
-	// const [offset, setOffset] = useState(0);
-
-	const handleAutoGrow = ({
-		currentTarget,
-	}: FormEvent<HTMLTextAreaElement>) => {
-		currentTarget.style.height = 'auto';
-		currentTarget.style.height = `${currentTarget.scrollHeight}px`;
+	const handleClear = () => {
+		const event = new Event('input', { bubbles: true });
+		textAreaRef.current.value = '';
+		textAreaRef.current.dispatchEvent(event);
+		clearText();
 	};
 
 	return (
@@ -65,17 +61,16 @@ function SourceBox({ language }: TranslateBoxProps) {
 				aria-label="Clear source text"
 				data-title="Clear source text"
 				data-tooltip-pos="right"
-				onClick={clearText}
+				onClick={handleClear}
 			>
 				<MdClear size="24" color="currentColor" />
 			</BtnClear>
 			<TextArea
 				aria-label="Enter the source text"
 				maxLength={charactersLimit}
+				ref={textAreaRef}
 				rows={2}
-				// ref={textareaRef}
 				value={text}
-				onInput={handleAutoGrow}
 				onChange={handleChange}
 			/>
 			<Actions>
