@@ -35,3 +35,13 @@ export const hideToastAnimation = keyframes`
     transform: translate3d(0, 10rem, 0);
   }
 `;
+
+export const spinnerGrowAnimation = keyframes`
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: none;
+  }
+`;
