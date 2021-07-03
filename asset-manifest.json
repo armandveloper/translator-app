@@ -1,19 +1,29 @@
 {
   "files": {
-    "main.js": "/translator-app/static/js/main.c0403cfd.chunk.js",
-    "main.js.map": "/translator-app/static/js/main.c0403cfd.chunk.js.map",
-    "runtime-main.js": "/translator-app/static/js/runtime-main.d8669261.js",
-    "runtime-main.js.map": "/translator-app/static/js/runtime-main.d8669261.js.map",
-    "static/js/2.9a91c7d9.chunk.js": "/translator-app/static/js/2.9a91c7d9.chunk.js",
-    "static/js/2.9a91c7d9.chunk.js.map": "/translator-app/static/js/2.9a91c7d9.chunk.js.map",
-    "static/js/3.076abce2.chunk.js": "/translator-app/static/js/3.076abce2.chunk.js",
-    "static/js/3.076abce2.chunk.js.map": "/translator-app/static/js/3.076abce2.chunk.js.map",
+    "main.js": "/translator-app/static/js/main.1dbf5d42.chunk.js",
+    "main.js.map": "/translator-app/static/js/main.1dbf5d42.chunk.js.map",
+    "runtime-main.js": "/translator-app/static/js/runtime-main.31bf98a9.js",
+    "runtime-main.js.map": "/translator-app/static/js/runtime-main.31bf98a9.js.map",
+    "static/js/2.91e7cb7b.chunk.js": "/translator-app/static/js/2.91e7cb7b.chunk.js",
+    "static/js/2.91e7cb7b.chunk.js.map": "/translator-app/static/js/2.91e7cb7b.chunk.js.map",
+    "static/js/3.03c814bb.chunk.js": "/translator-app/static/js/3.03c814bb.chunk.js",
+    "static/js/3.03c814bb.chunk.js.map": "/translator-app/static/js/3.03c814bb.chunk.js.map",
+    "static/js/4.1350dcb0.chunk.js": "/translator-app/static/js/4.1350dcb0.chunk.js",
+    "static/js/4.1350dcb0.chunk.js.map": "/translator-app/static/js/4.1350dcb0.chunk.js.map",
+    "static/js/5.d8d7aaa1.chunk.js": "/translator-app/static/js/5.d8d7aaa1.chunk.js",
+    "static/js/5.d8d7aaa1.chunk.js.map": "/translator-app/static/js/5.d8d7aaa1.chunk.js.map",
+    "static/js/6.c8360fa5.chunk.js": "/translator-app/static/js/6.c8360fa5.chunk.js",
+    "static/js/6.c8360fa5.chunk.js.map": "/translator-app/static/js/6.c8360fa5.chunk.js.map",
+    "static/js/7.aa147e8c.chunk.js": "/translator-app/static/js/7.aa147e8c.chunk.js",
+    "static/js/7.aa147e8c.chunk.js.map": "/translator-app/static/js/7.aa147e8c.chunk.js.map",
+    "static/js/8.530b97e5.chunk.js": "/translator-app/static/js/8.530b97e5.chunk.js",
+    "static/js/8.530b97e5.chunk.js.map": "/translator-app/static/js/8.530b97e5.chunk.js.map",
     "index.html": "/translator-app/index.html",
-    "static/js/2.9a91c7d9.chunk.js.LICENSE.txt": "/translator-app/static/js/2.9a91c7d9.chunk.js.LICENSE.txt"
+    "static/js/2.91e7cb7b.chunk.js.LICENSE.txt": "/translator-app/static/js/2.91e7cb7b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.d8669261.js",
-    "static/js/2.9a91c7d9.chunk.js",
-    "static/js/main.c0403cfd.chunk.js"
+    "static/js/runtime-main.31bf98a9.js",
+    "static/js/2.91e7cb7b.chunk.js",
+    "static/js/main.1dbf5d42.chunk.js"
   ]
 }
