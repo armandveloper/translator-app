@@ -52,6 +52,8 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 	const clearText = () => setSourceText('');
 
+	const isOnline = useOnline();
+
 	const url = 'https://deep-translate1.p.rapidapi.com/language/translate/v2',
 		apiKey = process.env.REACT_APP_API_KEY || '';
 
@@ -82,12 +84,16 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 				const result: ITranslateResponse = await res.json();
 				setResultText(result.data.translations.translatedText);
+				// Si no hay otro tipo de errores, coloca como vaío el estado
+				if (!hasLimitExceeded && isOnline) {
+					setError('');
+				}
 			} catch (err) {
 				console.error(err);
 				setError('Something Went Wrong');
 			}
 		},
-		[apiKey]
+		[apiKey, isOnline, hasLimitExceeded]
 	);
 
 	useEffect(() => {
@@ -96,14 +102,10 @@ export const TranslateProvider = ({ children }: { children: ReactNode }) => {
 
 	const timeoutID = useRef<number>(null!);
 
-	const isOnline = useOnline();
-
 	// Mensajes de error
 	useEffect(() => {
 		if (hasLimitExceeded) {
 			setError('You have exceeded the allowed character limit');
-		} else if (!hasLimitExceeded) {
-			setError('');
 		} else if (!isOnline) {
 			setError(
 				'There seems to be a problem with the Internet connection. Translator functionality may be limited.'
