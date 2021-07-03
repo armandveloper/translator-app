@@ -1,12 +1,14 @@
-import Header from '../components/Header';
-import Translator from '../components/Translator';
+import { lazy, Suspense } from 'react';
+import LoadingFallback from '../components/LoadingFallback';
+const Header = lazy(() => import('../components/Header'));
+const Translator = lazy(() => import('../components/Translator'));
 
 function HomePage() {
 	return (
-		<div>
+		<Suspense fallback={<LoadingFallback />}>
 			<Header />
 			<Translator />
-		</div>
+		</Suspense>
 	);
 }
 
